@@ -1,0 +1,14 @@
+{
+	"name": "<%= projectName %>",
+	"version": "1.0.0",
+	"description": "<%= projectName %>",
+	"scripts": {
+		"start": "NODE_ENV=development glue start",
+		"build": "NODE_ENV=production glue build"
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"license": "ISC"
+}
