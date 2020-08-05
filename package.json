@@ -9,7 +9,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git@git.lianjia.com:zhouxianglin001/fe-bundle.git"
+		"url": "git@github.com:okmengzhilin/glue-core.git"
 	},
 	"keywords": [
 		"glue",
