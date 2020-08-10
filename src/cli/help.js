@@ -1,7 +1,7 @@
 
 const chalk = require('chalk')
 
-module.exports = async (argv)=>{
+module.exports = (argv)=>{
 
 	/**
 	 * bundle help
@@ -19,6 +19,6 @@ module.exports = async (argv)=>{
 	bundle help                  =>   显示帮助信息
 
 	bundle version               =>   显示版本
-	
+
 	`)
 }

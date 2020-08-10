@@ -1,7 +1,7 @@
 
 const path = require('path')
 
-module.exports = async (argv) => {
+module.exports = (argv) => {
 
 	/**
 	 * glue version

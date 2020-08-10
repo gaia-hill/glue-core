@@ -6,6 +6,7 @@
 const optimist = require('optimist')
 const fs = require('fs-extra')
 const path = require('path')
+require('@babel/polyfill')
 
 let argv = optimist.argv
 

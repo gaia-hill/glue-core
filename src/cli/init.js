@@ -14,7 +14,7 @@ const needToCompile = ['.js', '.json', '.md']
 module.exports = async (argv) => {
 
 	/**
-	 * glue init projectName --ts 
+	 * glue init projectName --ts
 	*/
 
     const projectName = argv._[1]
