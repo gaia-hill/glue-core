@@ -1,24 +1,21 @@
 
+const path = require('path')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { ENV_DEV, ENV_PROD } = require('../constVar.js')
 
 module.exports = (appPath, env) => {
 	const cssLoader = [
+		'cache-loader',
 		env === ENV_PROD && MiniCssExtractPlugin.loader,
 		env === ENV_DEV && { loader: 'style-loader' },
-		{
-			loader: 'css-loader', options: {
-				sourceMap: env === ENV_DEV,
-			}
-		},
+		{ loader: 'css-loader' , options: { sourceMap: env === ENV_DEV }},
 		{
 			loader: 'postcss-loader',
 			options: {
-				sourceMap: env === ENV_DEV,
-				plugins: [
-					require('autoprefixer')
-				],
-				config: {}
+				config: {
+					path: path.resolve(__dirname, '../../configs/postcss.config.js'),
+					ctx: { env }
+				}
 			},
 		}
 	].filter(loader => loader)
@@ -27,7 +24,7 @@ module.exports = (appPath, env) => {
 		css: cssLoader,
 		less: [
 			...cssLoader,
-			{ loader: 'less-loader', options: { sourceMap: env === ENV_DEV } }
+			{ loader: 'less-loader', options: { sourceMap: env === ENV_DEV, javascriptEnabled: true } }
 		],
 		stylus: [
 			...cssLoader,

@@ -1,15 +1,12 @@
 
 var path = require("path")
 var fs = require("fs")
-const {
-	getCustomBundleConfig
-} = require('../utils')
 
-module.exports = (appPath, env) => {
+module.exports = (appPath, env, bundleConfig) => {
 
 	let {
 		dist = path.join(appPath, './dist')
-	} = getCustomBundleConfig(appPath, env)
+	} = bundleConfig
 
 	return function () {
 		this.plugin("done", function (stats) {

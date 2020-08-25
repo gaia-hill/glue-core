@@ -1,33 +1,20 @@
 const path = require('path')
 const fs = require('fs-extra')
-const {
-	getCustomBundleConfig
-} = require('../modules/utils')
 const getLoader = require('../modules/webpack/loaders.js')
 const getPlugins = require('../modules/webpack/plugins.js')
-const getDevServerConfig = require('./devServer.js')
 
 const { ENV_DEV, ENV_PROD } = require('../modules/constVar.js')
 
-module.exports = (appPath, env) => {
+module.exports = (appPath, env, bundleConfig) => {
 	let {
 		entry = { index: path.join(appPath, './src/index.js') },
 		dist = path.join(appPath, './dist'),
 		hash = true
-	} = getCustomBundleConfig(appPath, env)
+	} = bundleConfig
 
-	const devServerConfig = getDevServerConfig(appPath, env)
-
-	if (env === ENV_DEV && devServerConfig.hot) {
-		Object.keys(entry).forEach((key) => {
-			if (fs.existsSync(entry[key])) {
-				let data = fs.readFileSync(entry[key])
-				if (data.indexOf('module.hot.accept') < 0) {
-					fs.appendFileSync(entry[key], '\nif(module.hot) { module.hot.accept() }\n')
-				}
-			}
-		})
-	}
+	Object.keys(entry).forEach((key) => {
+		entry[key] = [].concat(['@babel/polyfill'], typeof (entry[key]) === 'string' ? [entry[key]] : entry[key])
+	})
 
 	let defaultWebpackConfig = {
 		mode: env,
@@ -35,13 +22,13 @@ module.exports = (appPath, env) => {
 		entry,
 		output: {
 			path: dist,
-			filename: env === ENV_PROD && hash ? `js/[name].[contenthash].js` : `js/[name].js`,
-			libraryTarget: 'umd',
+			filename: env === ENV_PROD && hash ? `js/[name].[chunkHash].js` : `js/[name].js`,
+			// libraryTarget: 'umd',
 		},
 		module: {
-			rules: getLoader(appPath, env)
+			rules: getLoader(appPath, env, bundleConfig)
 		},
-		plugins: getPlugins(appPath, env),
+		plugins: getPlugins(appPath, env, bundleConfig),
 		resolveLoader: {
 			moduleExtensions: ['-loader', '*'],
 			modules: [
@@ -50,6 +37,7 @@ module.exports = (appPath, env) => {
 			]
 		},
 		resolve: {
+			alias: {},
 			modules: [
 				path.join(__dirname, '../../node_modules'),
 				path.join(appPath, 'node_modules'),

@@ -1,13 +1,10 @@
 const path = require('path')
 const fs = require('fs-extra')
-const {
-	getCustomBundleConfig
-} = require('../utils')
 
-module.exports = (appPath, env) => {
+module.exports = (appPath, env, bundleConfig) => {
 	let {
 		tsConfigPath = path.join(appPath, './tsconfig.json')
-	} = getCustomBundleConfig(appPath, env)
+	} = bundleConfig
 
 	if (!fs.existsSync(tsConfigPath)) {
 		tsConfigPath = path.join(__dirname, '../../configs/tsconfig.json')

@@ -8,8 +8,8 @@ const {
 
 const { ENV_PROD } = require('../modules/constVar.js')
 
-module.exports = (appPath) => {
-	let webpackConfig = defaultWebPackConfig(appPath, ENV_PROD)
+module.exports = (appPath, bundleConfig) => {
+	let webpackConfig = defaultWebPackConfig(appPath, ENV_PROD, bundleConfig)
 	webpackConfig.devtool = false
 	webpackConfig.optimization = {
 		minimizer: [
