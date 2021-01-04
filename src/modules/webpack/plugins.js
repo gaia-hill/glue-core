@@ -1,27 +1,33 @@
 const path = require('path')
 const fs = require('fs-extra')
-const chalk = require('chalk')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const happypackConfig = require('./happypack.js');
 const ExportCDNResource = require('./exportCdnResource.js')
+const { handlerProgress } = require('../utils.js')
+const eslintConfig = require('../../configs/eslint.config.js')
 const { ENV_DEV, ENV_PROD } = require('../constVar.js')
 
 module.exports = (appPath, env, bundleConfig) => {
 	let {
 		hash = true,
-		favicon = '',
+		favicon = false,
 		title = 'fe-bundle',
-		htmlFile = true,
+		html = true,
 		vue = false,
 		template,
-		happypack = false
+		happypack = false,
+		src = path.join(appPath, './src'),
+		lint = false
 	} = bundleConfig
 
 	const happypackPlugins = happypack ? happypackConfig(appPath, env, bundleConfig) : []
 	const plugins = [
+
+		env === ENV_DEV && lint && new ESLintPlugin(eslintConfig(appPath, bundleConfig)),
 
 		...happypackPlugins,
 
@@ -35,7 +41,7 @@ module.exports = (appPath, env, bundleConfig) => {
 		vue && new VueLoaderPlugin(),
 
 		// 通过模板生成HTML文件
-		htmlFile && new HtmlWebpackPlugin({
+		html && new HtmlWebpackPlugin({
 			chunksSortMode: 'none',
 			title,
 			favicon,
@@ -48,11 +54,12 @@ module.exports = (appPath, env, bundleConfig) => {
 		}),
 
 		// 显示构建的进度
-		new ProgressBarWebpackPlugin(),
+		new webpack.ProgressPlugin(handlerProgress()),
 
-		env === ENV_PROD && ExportCDNResource(appPath, env, bundleConfig)
+		env === ENV_PROD && new ExportCDNResource({ appPath, env, bundleConfig })
 
 	].filter(plugin => plugin)
 
 	return plugins
 }
+

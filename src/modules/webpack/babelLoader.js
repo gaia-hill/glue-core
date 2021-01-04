@@ -24,7 +24,7 @@ module.exports = (appPath, env, bundleConfig) => {
 
 					[require.resolve('babel-plugin-import'), {
 						'libraryName': 'antd',
-						'style': 'css'
+						'style': true
 					}, 'antd'],
 					[require.resolve('babel-plugin-import'), {
 						'libraryName': 'ant-mobile',

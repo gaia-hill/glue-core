@@ -7,28 +7,16 @@ const chalk = require('chalk')
 
 const ignoreFiles = ['.DS_Store']
 
-function getCustomWebpackConfig(appPath, env) {
-
-	let pathDev = path.join(appPath, 'bundle/webpack.dev.js')
-	let pathProd = path.join(appPath, 'bundle/webpack.prod.js')
-	switch (env) {
-		case ENV_PROD:
-			if (fs.existsSync(pathProd)) {
-				return require(pathProd)
-			}
-			break;
-		default:
-			if (fs.existsSync(pathDev)) {
-				return require(pathDev)
-			}
-			break;
+function getCustomWebpackConfig(appPath) {
+	let webpackCustomPath = path.join(appPath, './webpack.config.js')
+	if (fs.existsSync(webpackCustomPath)) {
+		return require(webpackCustomPath)
 	}
-
 	return () => null
 }
 
 function getCustomBundleConfig(appPath, env) {
-	let pathBundle = path.join(appPath, 'bundle/bundle.js')
+	let pathBundle = path.join(appPath, './bundle.config.js')
 	if (fs.existsSync(pathBundle)) {
 		let bundleConfig = require(pathBundle)(appPath, env)
 		return bundleConfig
@@ -81,10 +69,32 @@ function walkFile(dirPath, callback) {
 	})
 }
 
+function handlerProgress() {
+	let startTime = null
+	let isReBuild = false
+	return (percentage, message, ...args) => {
+		if (percentage === 0) {
+			startTime = Date.now()
+		} else {
+			let time = startTime ? ((Date.now() - startTime) / 1000).toFixed(3) : 0
+			let desc = percentage < 1 ? (isReBuild ? '更新中' : '构建中') : '构建完成'
+			let outputMessage = `[${chalk.green(`${Math.ceil(percentage * 100)}%`)}] --- ${desc} 时长：${time}s`
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			process.stdout.write(outputMessage)
+			if (percentage === 1) {
+				isReBuild = true
+				console.log('\n\n')
+			}
+		}
+	}
+}
+
 module.exports = {
 	getCustomWebpackConfig,
 	getCustomBundleConfig,
 	writeFileWithTemplate,
 	walkFile,
-	mkdirpSync
+	mkdirpSync,
+	handlerProgress
 }

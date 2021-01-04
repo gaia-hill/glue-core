@@ -7,9 +7,12 @@ const { ENV_DEV, ENV_PROD } = require('../modules/constVar.js')
 
 module.exports = (appPath, env, bundleConfig) => {
 	let {
-		entry = { index: path.join(appPath, './src/index.js') },
 		dist = path.join(appPath, './dist'),
-		hash = true
+		hash = true,
+		src = path.join(appPath, 'src')
+	} = bundleConfig
+	let {
+		entry = { index: path.join(src, 'index.js') },
 	} = bundleConfig
 
 	Object.keys(entry).forEach((key) => {
@@ -30,18 +33,19 @@ module.exports = (appPath, env, bundleConfig) => {
 		},
 		plugins: getPlugins(appPath, env, bundleConfig),
 		resolveLoader: {
-			moduleExtensions: ['-loader', '*'],
 			modules: [
-				path.join(__dirname, '../../node_modules'),
-				'node_modules'
+				'node_modules',
+				path.join(__dirname, '../../node_modules')
 			]
 		},
 		resolve: {
-			alias: {},
+			alias: {
+				'@': src
+			},
 			modules: [
-				path.join(__dirname, '../../node_modules'),
+				'node_modules',
 				path.join(appPath, 'node_modules'),
-				'node_modules'
+				path.join(__dirname, '../../node_modules')
 			],
 			extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
 		}

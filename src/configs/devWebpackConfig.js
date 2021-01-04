@@ -9,7 +9,8 @@ const { ENV_DEV } = require('../modules/constVar.js')
 
 module.exports = (appPath, bundleConfig) => {
 	let webpackConfig = defaultWebPackConfig(appPath, ENV_DEV, bundleConfig)
-	webpackConfig.devtool = 'eval-source-map'
-	return getCustomWebpackConfig(appPath, ENV_DEV)(webpackConfig, appPath)
-	// return (new SpeedMeasurePlugin()).wrap(getCustomWebpackConfig(appPath, ENV_DEV)(webpackConfig, appPath))
+	webpackConfig.devtool = 'eval-cheap-module-source-map'
+	const customConfig = getCustomWebpackConfig(appPath)(webpackConfig, appPath, ENV_DEV)
+	return customConfig ? customConfig : webpackConfig
+	// return (new SpeedMeasurePlugin()).wrap(getCustomWebpackConfig(appPath)(webpackConfig, appPath, ENV_DEV))
 }

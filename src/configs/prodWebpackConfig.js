@@ -1,4 +1,3 @@
-const path = require('path')
 const TerserJSPlugin = require("terser-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const defaultWebPackConfig = require('./defaultWebpackConfig')
@@ -25,5 +24,6 @@ module.exports = (appPath, bundleConfig) => {
 			})
 		]
 	}
-	return getCustomWebpackConfig(appPath, ENV_PROD)(webpackConfig, appPath)
+	const customConfig = getCustomWebpackConfig(appPath)(webpackConfig, appPath, ENV_PROD)
+	return customConfig ? customConfig : webpackConfig
 }

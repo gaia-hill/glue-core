@@ -1,5 +1,6 @@
+
 /**
- * @description 生产环境webpack自定义配置
+ * @description webpack自定义配置
  * @date  <%= createdAt %>
  */
 
@@ -10,6 +11,7 @@
  * @returns {*}
  */
 
-module.exports = function(webpackConfig, appPath){
+module.exports = function (webpackConfig, appPath, env) {
+	// webpackConfig.xxx 自定义配置
 	return webpackConfig
 }

@@ -44,16 +44,14 @@ glue version        显示当前版本
 #### 目录结构
 
 ```javascript
-bundle/
-		bundle.js         // glue-core配置文件，详细见下文bundle配置
-		webpack.dev.js    // 暴露开发环境webpack配置，可自行修改配置
-		webpack.prod.js   // 暴露线上环境webpack配置，可自行修改配置
-src/                  // 源文件目录，入口文件路径
-package.json  项目package.json
+src/                     // 源文件目录，入口文件路径
+bundle.config.js         // glue-core配置文件，详细见下文bundle配置
+webpack.config.js        // 暴露webpack配置，可自行修改
+package.json             // 项目package.json
 ```
 
 
-#### bundle.js配置
+#### bundle.config.js配置
 
 ```javascript
 
@@ -64,7 +62,7 @@ module.exports = function (appPath, env) {
         vue: false,                   //  是否支持vue
         hash: true,                   //  构建时是否添加hash
         favicon: '',                  //  页面图标
-        htmlFile: true,               //  是否生成html文件
+        html: true,                   //  是否生成html文件
         template: undefined,          //  模板路径
         happypack: false,             //  是否启用happypack
         entry: {                      //  页面入口文件，默认{ index: path.join(appPath, 			'./src/index.js') }
@@ -74,10 +72,23 @@ module.exports = function (appPath, env) {
         dist: path.join(appPath, './dist'),  //  项目构建输出目录
         // tsConfigPath: path.join(appPath, './tsconfig.json'),    //  ts项目，ts配置文件路径，不填会自动使用默认配置
         babelConfig: {},                  //  babel配置，参考babel文档
+        fix: false,                       //  是否自动修复eslint问题
+		lint: false,                      //  是否开启eslint，true或者{...eslintOptions}，具体配置可参考eslint官网 -> Node.js API -> new ESLint(options)
         devServer: {                      //  dev-server文档，参考webpack文档中的配置
             port: 9999
         }
     }
+}
+
+```
+
+#### webpack.config.js配置
+
+```javascript
+
+module.exports = function (webpackConfig, appPath, env) {
+    // 可在webpackConfig中添加自定义配置
+    return webpackConfig
 }
 
 ```
