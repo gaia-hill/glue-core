@@ -56,7 +56,7 @@ module.exports = (appPath, env, bundleConfig) => {
 		// 显示构建的进度
 		new webpack.ProgressPlugin(handlerProgress()),
 
-		env === ENV_PROD && new ExportCDNResource({ appPath, env, bundleConfig })
+		env === ENV_PROD && hash && new ExportCDNResource({ appPath, env, bundleConfig })
 
 	].filter(plugin => plugin)
 

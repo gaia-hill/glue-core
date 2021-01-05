@@ -15,9 +15,9 @@ module.exports = (appPath, env, bundleConfig) => {
 		entry = { index: path.join(src, 'index.js') },
 	} = bundleConfig
 
-	Object.keys(entry).forEach((key) => {
-		entry[key] = [].concat(['@babel/polyfill'], typeof (entry[key]) === 'string' ? [entry[key]] : entry[key])
-	})
+	// Object.keys(entry).forEach((key) => {
+	// 	entry[key] = [].concat(['@babel/polyfill'], typeof (entry[key]) === 'string' ? [entry[key]] : entry[key])
+	// })
 
 	let defaultWebpackConfig = {
 		mode: env,
@@ -25,7 +25,7 @@ module.exports = (appPath, env, bundleConfig) => {
 		entry,
 		output: {
 			path: dist,
-			filename: env === ENV_PROD && hash ? `js/[name].[chunkHash].js` : `js/[name].js`,
+			filename: env === ENV_PROD && hash ? `js/[name].[contenthash].js` : `js/[name].js`,
 			// libraryTarget: 'umd',
 		},
 		module: {
