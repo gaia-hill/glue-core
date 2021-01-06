@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const ejs = require('ejs')
 const chalk = require('chalk')
+const readline = require('readline')
 
 const ignoreFiles = ['.DS_Store']
 
@@ -79,8 +80,12 @@ function handlerProgress() {
 			let time = startTime ? ((Date.now() - startTime) / 1000).toFixed(3) : 0
 			let desc = percentage < 1 ? (isReBuild ? '更新中' : '构建中') : '构建完成'
 			let outputMessage = `[${chalk.green(`${Math.ceil(percentage * 100)}%`)}] --- ${desc} 时长：${time}s`
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
+			try {
+				// process.stdout.clearLine()
+				// process.stdout.cursorTo(0)
+				readline.clearLine(process.stdout)
+				readline.cursorTo(process.stdout, 0)
+			} catch (error) { }
 			process.stdout.write(outputMessage)
 			if (percentage === 1) {
 				isReBuild = true
