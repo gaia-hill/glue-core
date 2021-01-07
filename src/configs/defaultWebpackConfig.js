@@ -47,7 +47,7 @@ module.exports = (appPath, env, bundleConfig) => {
 				path.join(appPath, 'node_modules'),
 				path.join(__dirname, '../../node_modules')
 			],
-			extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+			extensions: ['.js', '.mjs', '.jsx', '.ts', '.tsx'],
 		}
 	}
 

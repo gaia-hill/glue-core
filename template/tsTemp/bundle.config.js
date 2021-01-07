@@ -9,7 +9,6 @@ const path = require('path')
 module.exports = function (appPath, env) {
 	return {
 		title: '<%= projectName %>',  //  页面标题
-		vue: false,                   //  是否支持vue
 		hash: true,                   //  构建时是否添加hash
 		favicon: '',                  //  页面图标
 		html: true,                   //  是否生成html文件

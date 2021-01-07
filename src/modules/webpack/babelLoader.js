@@ -1,7 +1,8 @@
 
 const path = require('path')
+const { ENV_DEV, ENV_PROD } = require('../constVar.js')
 
-module.exports = (appPath, env, bundleConfig) => {
+module.exports = (appPath, env, bundleConfig, isTs) => {
 	const { babelConfig = {}, src = path.join(appPath, './src') } = bundleConfig
 	const babelLoader = {
 		loader: 'babel-loader',
@@ -9,27 +10,21 @@ module.exports = (appPath, env, bundleConfig) => {
 			{},
 			{
 				babelrc: false,
-			    compact: true,
+				configFile: false,
+				compact: env === ENV_PROD,
 				cacheDirectory: true,
-				// exclude: path.join(appPath, './node_modules'),
+				cacheCompression: false,
+				exclude: 'node_modules',
 				include: src,
 				presets: [
-					[require.resolve('@babel/preset-env'), {useBuiltIns: 'usage', corejs: 3}],
-					require.resolve('@babel/preset-react')
-				],
+					require.resolve('@babel/preset-env'),
+					require.resolve('@babel/preset-react'),
+					isTs && require.resolve('@babel/preset-typescript')
+				].filter(Boolean),
 				plugins: [
 					require.resolve("@babel/plugin-syntax-dynamic-import"),
 					require.resolve("@babel/plugin-transform-async-to-generator"),
-					[require.resolve("@babel/plugin-proposal-class-properties"), { "loose": false }],
-
-					[require.resolve('babel-plugin-import'), {
-						'libraryName': 'antd',
-						'style': true
-					}, 'antd'],
-					[require.resolve('babel-plugin-import'), {
-						'libraryName': 'ant-mobile',
-						'style': 'css'
-					}, 'ant-mobile'],
+					require.resolve("@babel/plugin-proposal-class-properties"),
 					require.resolve("@babel/plugin-transform-runtime")
 				]
 			},

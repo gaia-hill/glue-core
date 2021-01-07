@@ -3,7 +3,7 @@
 
 
 ## glue-core
-基于webpack的前端构建工具
+基于webpack的react构建工具
 
 
 
@@ -59,7 +59,6 @@ const path = require('path')
 module.exports = function (appPath, env) {
     return {
         title: '项目标题',              //  页面标题
-        vue: false,                   //  是否支持vue
         hash: true,                   //  构建时是否添加hash
         favicon: '',                  //  页面图标
         html: true,                   //  是否生成html文件
@@ -73,7 +72,7 @@ module.exports = function (appPath, env) {
         // tsConfigPath: path.join(appPath, './tsconfig.json'),    //  ts项目，ts配置文件路径，不填会自动使用默认配置
         babelConfig: {},                  //  babel配置，参考babel文档
         fix: false,                       //  是否自动修复eslint问题
-		lint: false,                      //  是否开启eslint，true或者{...eslintOptions}，具体配置可参考eslint官网 -> Node.js API -> new ESLint(options)
+        lint: false,                      //  是否开启eslint，true或者{...eslintOptions}，具体配置可参考eslint官网 -> Node.js API -> new ESLint(options)
         devServer: {                      //  dev-server文档，参考webpack文档中的配置
             port: 9999
         }

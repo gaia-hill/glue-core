@@ -4,7 +4,6 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const happypackConfig = require('./happypack.js');
 const ExportCDNResource = require('./exportCdnResource.js')
 const { handlerProgress } = require('../utils.js')
@@ -17,7 +16,6 @@ module.exports = (appPath, env, bundleConfig) => {
 		favicon = false,
 		title = 'fe-bundle',
 		html = true,
-		vue = false,
 		template,
 		happypack = false,
 		src = path.join(appPath, './src'),
@@ -37,8 +35,6 @@ module.exports = (appPath, env, bundleConfig) => {
 			allChunks: false,
 			ignoreOrder: true
 		}),
-
-		vue && new VueLoaderPlugin(),
 
 		// 通过模板生成HTML文件
 		html && new HtmlWebpackPlugin({

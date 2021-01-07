@@ -2,21 +2,23 @@
 const path = require('path')
 module.exports = (appPath, bundleConfig) => {
 	let {
-		vue = false,
-		src = path.join(appPath, './src'),
 		fix = false,
 		lint = false
 	} = bundleConfig
 	return {
 		fix,
-		cwd: src,
-		extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+		cwd: appPath,
+		context: appPath,
+		eslintPath: require.resolve('eslint'),
+		formatter: require.resolve('react-dev-utils/eslintFormatter'),
+		extensions: ['.js', '.mjs', '.jsx', '.ts', '.tsx'],
 		useEslintrc: false,
 		lintDirtyModulesOnly: false,
+		cache: true,
+		cacheLocation: path.resolve(appPath, 'node_modules/.cache/.eslintcache'),
 		resolvePluginsRelativeTo: path.resolve(__dirname, '../../node_modules'),
 		baseConfig: {
-			// plugins: ['import', 'react', 'react-hooks', 'jsx-a11y'],
-			extends: vue ? require.resolve('eslint-config-vue') : require.resolve('eslint-config-airbnb'),
+			extends: require.resolve('eslint-config-react-app'),
 			rules: {
 				'no-console': 'off',
 				'no-tabs': 'off',

@@ -1,10 +1,7 @@
-const path = require('path')
-const { ENV_DEV, ENV_PROD } = require('../constVar.js')
+const { ENV_PROD } = require('../constVar.js')
 
 const getCssLoader = require('./cssLoader.js')
 const getBabelLoader = require('./babelLoader.js')
-const getTsLoader = require('./tsLoader.js')
-const getVueLoader = require('./vueLoader.js')
 
 module.exports = (appPath, env, bundleConfig) => {
 	let {
@@ -13,14 +10,13 @@ module.exports = (appPath, env, bundleConfig) => {
 	} = bundleConfig
 	const loaders = [
 		{
-			test: /\.jsx?$/,
-			use: happypack ? 'happypack/loader?id=babel' : [getBabelLoader(appPath, env, bundleConfig)]
+			test: /\.(js|mjs|jsx)$/,
+			use: happypack ? 'happypack/loader?id=babel' : [getBabelLoader(appPath, env, bundleConfig, false)]
 		},
 		{
-			test: /\.tsx?$/,
-			use: happypack ? 'happypack/loader?id=ts' : [getBabelLoader(appPath, env, bundleConfig), getTsLoader(appPath, env, bundleConfig)]
+			test: /\.(ts|tsx)$/,
+			use: happypack ? 'happypack/loader?id=ts' : [getBabelLoader(appPath, env, bundleConfig, true)]
 		},
-		...getVueLoader(appPath, env, bundleConfig),
 		...getCssLoader(appPath, env),
 		{
 			test: /\.(png|jpe?g|gif)$/i,

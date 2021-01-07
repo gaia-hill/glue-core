@@ -32,15 +32,13 @@ module.exports = class ExportCDNResource {
 				)
 			}
 
-			// const iniContent = []
-			// for (var i in result) {
-			// 	iniContent.push(`${i}=${result[i]}`)
-			// }
+			const iniContent = []
+			for (var i in result) {
+				iniContent.push(`${i}=${result[i]}`)
+			}
 			try {
 				fs.writeFileSync(path.join(dist, "cdnResource.json"), JSON.stringify(result))
-				// fs.writeFileSync(
-				// 	path.join(dist, "cdnResource.ini"),
-				// 	iniContent.join("\n"));
+				fs.writeFileSync(path.join(dist, "cdnResource.ini"), iniContent.join("\n"))
 			} catch (e) {
 				console.error(e)
 			}
