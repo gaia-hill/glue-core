@@ -1,10 +1,10 @@
 {
 	"name": "glue-core",
-	"version": "0.0.8",
-	"description": "基于webpack的前端构建工具",
+	"version": "0.0.9",
+	"description": "基于webpack的react构建工具",
 	"main": "./dist/index.js",
 	"scripts": {
-		"build": "babel src --presets=@babel/preset-env --out-dir dist --copy-files",
+		"build": "rm -rf ./dist && babel src --presets=@babel/preset-env --out-dir dist --copy-files",
 		"test-version": "node ./src/index.js version",
 		"user": "npm login --registry=https://registry.npmjs.org",
 		"pub": "npm publish --registry=https://registry.npmjs.org"
@@ -15,9 +15,10 @@
 	},
 	"keywords": [
 		"glue",
+		"react",
 		"webpack",
 		"typescript",
-		"hot reload"
+		"eslint"
 	],
 	"bin": {
 		"glue": "./bin/glue"
@@ -71,7 +72,6 @@
 		"stylus": "^0.54.8",
 		"stylus-loader": "^3.0.2",
 		"terser-webpack-plugin": "^2.3.8",
-		"ts-loader": "^7.0.5",
 		"typescript": "^3.9.7",
 		"webpack": "5.11.1",
 		"webpack-dev-server": "^3.11.1"

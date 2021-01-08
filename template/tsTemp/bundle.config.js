@@ -13,7 +13,6 @@ module.exports = function (appPath, env) {
 		favicon: '',                  //  页面图标
 		html: true,                   //  是否生成html文件
 		template: undefined,          //  模板路径
-		happypack: false,             //  是否启用happypack
 		entry: {                      //  页面入口文件，默认{ index: path.join(appPath, './src/index.js') }
 			index: path.join(appPath, './src/index.js')
 		},

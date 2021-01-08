@@ -27,7 +27,7 @@ module.exports = (appPath, env, bundleConfig) => {
 
 		env === ENV_DEV && lint && new ESLintPlugin(eslintConfig(appPath, bundleConfig)),
 
-		...happypackPlugins,
+		...(happypack ? happypackPlugins : {}),
 
 		// 提取css到单独文件，只在生产环境生效
 		env === ENV_PROD && new MiniCssExtractPlugin({
