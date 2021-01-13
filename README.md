@@ -47,7 +47,6 @@ glue version        显示当前版本
 src/                     // 源文件目录，入口文件路径
 bundle.config.js         // glue-core配置文件，详细见下文bundle配置
 webpack.config.js        // 暴露webpack配置，可自行修改
-tsconfig.json            // ts项目的编译配置
 package.json             // 项目package.json
 ```
 

@@ -6,7 +6,7 @@ module.exports = (appPath, env, bundleConfig) => {
 	let serverConfig = Object.assign({
 		// proxy: { },
 		port: PORT,
-		host: 'localhost',
+		host: '0.0.0.0',
 		quiet: false,
 		clientLogLevel: 'info',
 		contentBase: path.join(appPath, 'public'),
